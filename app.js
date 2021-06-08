@@ -16,8 +16,18 @@ const app = () => {
     let fakeDuration = 600;
 
     outline.style.strokeDasharray = outLineLength;
+    outline.style.strokeDashoffset = outLineLength;
 
-    // Select Sound
+    // select different sound
+    sounds.forEach(sound => {
+        sound.addEventListener('click', function () {
+            song.src = this.getAttribute('data-sound');
+            video.src = this.getAttribute('data-video');
+            checkPlaying(song)
+        });
+    });
+
+    // Select Sound playback time
     timeSelect.forEach(option => {
         {
             option.addEventListener('click', function () {
@@ -50,7 +60,6 @@ const app = () => {
 
     song.ontimeupdate = () => {
         let currentTime = song.currentTime;
-        console.log(currentTime);
         let elapsed = fakeDuration - currentTime;
         let seconds = Math.floor(elapsed % 60);
         let minutes = Math.floor(elapsed / 60);
