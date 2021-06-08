@@ -47,7 +47,9 @@ const app = () => {
 
         //Animation
         let progress = outLineLength - (currentTime / fakeDuration) * outLineLength;
-        outline.style.strokeDashoffset = progress;
+        outline.style.strokeDashoffset = progress; 
+        // Text animation with template literals
+        timeDisplay.textContent = `${minutes}:${seconds}`;
     }
 };
 
