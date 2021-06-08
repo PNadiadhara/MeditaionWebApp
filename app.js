@@ -15,11 +15,11 @@ const app = () => {
     let fakeDuration = 600;
 
     outline.style.strokeDasharray = outLineLength;
-    outline.style.strokeDashoffset = outLineLength;
+    
 
     // play sound on play button click
     play.addEventListener("click", () => {
-        checkPlaying(song)
+        checkPlaying(song);
     });
 
     // pause play audio
@@ -27,15 +27,28 @@ const app = () => {
         if (song.paused) {
             song.play();
             video.play();
-            play.src = './svg/pause.svg';
+            play.src = "./svg/pause.svg";
         } else {
             song.pause();
             video.pause();
-            play.src = './svg/play.svg';
+            play.src = "./svg/play.svg";
         }
+    };
+
+    // Animate Timer Circle
+    // https://www.w3schools.com/jsref/event_ontimeupdate.asp
+
+    song.ontimeupdate = () => {
+        let currentTime = song.currentTime;
+        console.log(currentTime);
+        let elapsed = fakeDuration - currentTime;
+        let seconds = Math.floor(elapsed % 60);
+        let minutes = Math.floor(elapsed / 60);
+
+        //Animation
+        let progress = outLineLength - (currentTime / fakeDuration) * outLineLength;
+        outline.style.strokeDashoffset = progress;
     }
-
-
 };
 
 app();
