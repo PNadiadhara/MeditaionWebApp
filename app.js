@@ -8,6 +8,7 @@ const app = () => {
     const sounds = document.querySelectorAll('.sound-picker button');
     // Time display
     const timeDisplay = document.querySelector('.time-display');
+    const timeSelect = document.querySelectorAll('.time-select button')
 
     const outLineLength = outline.getTotalLength();
     //console.log(outLineLength)
@@ -15,7 +16,16 @@ const app = () => {
     let fakeDuration = 600;
 
     outline.style.strokeDasharray = outLineLength;
-    
+
+    // Select Sound
+    timeSelect.forEach(option => {
+        {
+            option.addEventListener('click', function () {
+                fakeDuration = this.getAttribute('data-time');
+                timeDisplay.textContent = `${Math.floor(fakeDuration / 60)}:${Math.floor(fakeDuration % 60)}`
+            });
+        }
+    });
 
     // play sound on play button click
     play.addEventListener("click", () => {
@@ -47,10 +57,18 @@ const app = () => {
 
         //Animation
         let progress = outLineLength - (currentTime / fakeDuration) * outLineLength;
-        outline.style.strokeDashoffset = progress; 
+        outline.style.strokeDashoffset = progress;
         // Text animation with template literals
         timeDisplay.textContent = `${minutes}:${seconds}`;
-    }
+
+        // Stop animation on time up
+        if (currentTime >= fakeDuration) {
+            song.pause();
+            song.currentTime = 0;
+            play.src = "./svg/play.svg"
+            video.pause();
+        }
+    };
 };
 
 app();
